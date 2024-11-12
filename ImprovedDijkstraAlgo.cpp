@@ -3,7 +3,7 @@
 #include <list>
 #include <queue>
 #include <utility>
-#include <unordered_set>
+#include <algorithm> // Include this for the reverse function
 
 using namespace std;
 
@@ -17,15 +17,13 @@ using iPair = pair<int, int>;
 class Graph {
     int V; // Number of vertices
     vector<list<iPair>> adj; // Adjacency list
-    unordered_set<int> blockedNodes; // Set of blocked nodes
 
 public:
     explicit Graph(int V); // Constructor
 
     void addEdge(int u, int v, int w); // Function to add an edge
-    void blockNode(int node); // Function to block a node (simulate obstacle detection)
-    void unblockNode(int node); // Function to unblock a node
-    void dynamicShortestPath(int src, int target); // Dynamic path with obstacle detection
+    vector<int> shortestPath(int src, int dest); // Find shortest path from src to dest
+    void removeEdge(int u, int v); // Function to remove an edge
 };
 
 // Constructor to allocate memory for the adjacency list
@@ -37,68 +35,46 @@ void Graph::addEdge(int u, int v, int w) {
     adj[v].emplace_back(u, w); // Since the graph is undirected
 }
 
-// Function to block a node (simulate detecting an obstacle)
-void Graph::blockNode(int node) {
-    blockedNodes.insert(node);
+// Function to remove an edge (simulating an obstacle)
+void Graph::removeEdge(int u, int v) {
+    adj[u].remove_if([v](const iPair& edge) { return edge.first == v; });
+    adj[v].remove_if([u](const iPair& edge) { return edge.first == u; });
 }
 
-// Function to unblock a node
-void Graph::unblockNode(int node) {
-    blockedNodes.erase(node);
-}
+// Function to find shortest path from src to dest
+vector<int> Graph::shortestPath(int src, int dest) {
+    // Priority queue to store vertices being processed
+    priority_queue<iPair, vector<iPair>, greater<>> pq;
 
-// Dynamic path planning with obstacle detection
-void Graph::dynamicShortestPath(int src, int target) {
-    vector<int> dist(V, INF); // Vector to store distances
-    priority_queue<iPair, vector<iPair>, greater<>> pq; // Priority queue for processing
-
+    // Vector to store distances and initialize all distances as INF
+    vector<int> dist(V, INF);
+    vector<int> parent(V, -1); // To store the path
     dist[src] = 0;
     pq.emplace(0, src);
 
-    // Process the priority queue
     while (!pq.empty()) {
         int u = pq.top().second;
         pq.pop();
 
-        // If we reached the target node, stop the search
-        if (u == target) {
-            cout << "Reached target node " << target << " with distance " << dist[u] << '\n';
-            return;
-        }
+        if (u == dest) break; // Stop if we reached the destination
 
-        // Skip processing if the current node is blocked
-        if (blockedNodes.count(u)) continue;
-
-        // Iterate through all adjacent vertices of the current vertex
+        // Process each neighbor of u
         for (const auto& [v, weight] : adj[u]) {
-            // Skip blocked nodes
-            if (blockedNodes.count(v)) continue;
-
-            // If a shorter path to v is found
             if (dist[u] + weight < dist[v]) {
                 dist[v] = dist[u] + weight;
+                parent[v] = u;
                 pq.emplace(dist[v], v);
-            }
-        }
-
-        // Simulate obstacle detection
-        if (rand() % 5 == 0) { // Randomly detect an obstacle
-            int obstacleNode = u + 1; // Let's assume next node is blocked
-            if (obstacleNode < V) {
-                cout << "Detected obstacle at node " << obstacleNode << '\n';
-                blockNode(obstacleNode);
-
-                // Restart the path calculation from the current node
-                dist.assign(V, INF);
-                dist[u] = 0;
-                while (!pq.empty()) pq.pop();
-                pq.emplace(0, u);
             }
         }
     }
 
-    // If the target is unreachable
-    cout << "Target " << target << " is unreachable due to obstacles.\n";
+    // Backtrack from dest to src to get the path
+    vector<int> path;
+    for (int v = dest; v != -1; v = parent[v])
+        path.push_back(v);
+    reverse(path.begin(), path.end()); // Use reverse to get the path from src to dest
+
+    return path;
 }
 
 // Driver code
@@ -122,8 +98,38 @@ int main() {
     g.addEdge(6, 8, 6);
     g.addEdge(7, 8, 7);
 
-    // Call the dynamicShortestPath function
-    g.dynamicShortestPath(0, 8); // Start from node 0, target node 8
+    int src = 0, dest = 4;
+
+    // Find initial shortest path
+    vector<int> path = g.shortestPath(src, dest);
+
+    // Traverse the path with obstacle detection
+    cout << "Traversing the path with obstacle detection:\n";
+    for (size_t i = 0; i < path.size() - 1; ++i) {
+        int u = path[i];
+        int v = path[i + 1];
+
+        cout << "Checking edge from " << u << " to " << v << ". Is there an obstacle? (y/n): ";
+        char response;
+        cin >> response;
+
+        if (response == 'y' || response == 'Y') {
+            cout << "Obstacle detected. Recalculating path...\n";
+            g.removeEdge(u, v);
+            path = g.shortestPath(u, dest); // Recalculate path from current node
+            i = -1; // Restart the traversal from the updated path
+            if (path.empty()) {
+                cout << "No available path to destination.\n";
+                return 0;
+            }
+        }
+    }
+
+    // If traversal is successful, print the path
+    cout << "Path to destination:\n";
+    for (int node : path)
+        cout << node << " ";
+    cout << "\n";
 
     return 0;
 }
