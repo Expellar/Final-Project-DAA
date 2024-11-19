@@ -4,8 +4,11 @@
 #include <queue>
 #include <utility>
 #include <algorithm> // Include this for the reverse function
+#include <chrono>    // For measuring execution time
+#include <iomanip>   // For formatting output
 
 using namespace std;
+using namespace chrono; // For timing
 
 // Define INF as a large value to represent infinity
 constexpr int INF = 0x3f3f3f3f;
@@ -24,6 +27,10 @@ public:
     void addEdge(int u, int v, int w); // Function to add an edge
     vector<int> shortestPath(int src, int dest); // Find shortest path from src to dest
     void removeEdge(int u, int v); // Function to remove an edge
+    void displayGraph(); // Display the adjacency list as a table
+
+    // Getter for the adjacency list
+    const vector<list<iPair>>& getAdj() const { return adj; }
 };
 
 // Constructor to allocate memory for the adjacency list
@@ -77,6 +84,19 @@ vector<int> Graph::shortestPath(int src, int dest) {
     return path;
 }
 
+// Function to display the graph as an adjacency list
+void Graph::displayGraph() {
+    cout << "\nFinal Graph (Adjacency List):\n";
+    cout << setw(5) << "Node" << " -> Connected Nodes (Weight)\n";
+    for (int i = 0; i < V; ++i) {
+        cout << setw(5) << i << " -> ";
+        for (const auto& [v, w] : adj[i]) {
+            cout << "(" << v << ", " << w << ") ";
+        }
+        cout << "\n";
+    }
+}
+
 // Driver code
 int main() {
     int V = 9; // Number of vertices
@@ -100,8 +120,12 @@ int main() {
 
     int src = 0, dest = 4;
 
+    // Start timing
+    auto start = high_resolution_clock::now();
+
     // Find initial shortest path
     vector<int> path = g.shortestPath(src, dest);
+    int totalDistance = 0;
 
     // Traverse the path with obstacle detection
     cout << "Traversing the path with obstacle detection:\n";
@@ -122,14 +146,34 @@ int main() {
                 cout << "No available path to destination.\n";
                 return 0;
             }
+        } else {
+            for (const auto& [nextNode, weight] : g.getAdj()[u]) {
+                if (nextNode == v) {
+                    totalDistance += weight;
+                    break;
+                }
+            }
         }
     }
+
+    // End timing
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - start);
 
     // If traversal is successful, print the path
     cout << "Path to destination:\n";
     for (int node : path)
         cout << node << " ";
     cout << "\n";
+
+    // Output total distance
+    cout << "Total Distance: " << totalDistance << "\n";
+
+    // Output execution time
+    cout << "Execution Time: " << duration.count() << " ms\n";
+
+    // Display final graph
+    g.displayGraph();
 
     return 0;
 }
