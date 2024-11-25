@@ -126,7 +126,7 @@ int main() {
     vector<int> path = g.shortestPath(src, dest);
 
     // Display the original path
-    cout << "Original Path (Before Any Obstacles):\n";
+    cout << "\n--- Original Path (Before Any Obstacles) ---\n";
     for (int node : path)
         cout << node << " ";
     cout << "\n";
@@ -187,7 +187,7 @@ finalFullPath.push_back(dest);
     auto duration = duration_cast<milliseconds>(end - start);
 
     // Print the full path from beginning to end
-    cout << "\nFinal Path to Destination:\n";
+    cout << "\n--- Final Path to Destination ---\n";
     for (int node : finalFullPath)
         cout << node << " ";
     cout << "\n";
