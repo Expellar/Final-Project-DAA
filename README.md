@@ -9,28 +9,28 @@ A simulation in CoppeliaSim, showcasing the algorithm in action with a mobile ro
 - **ImprovedDijkstraAlgo**: The improved dijkstra's algorithm our team has developed
 - **Dijkstra_Improvement.ttt**: The implementation of the algorithm in a simulated virtual robot, in a simulated environment. Using the program CopelliaSim.
 
-## Features
-# C++ Implementation
+# Features
+## C++ Implementation
 - **Graph Representation**: The graph is represented using an adjacency list.
 - **Shortest Path Calculation**: The program calculates the shortest path between a source and a destination node using Dijkstra's algorithm.
 - **Dynamic Obstacle Detection**: As you traverse the calculated path, you can specify if an edge is blocked. If an obstacle is detected, the program recalculates the path from the current position.
 
-# CoppeliaSim Integration
+## CoppeliaSim Integration
 - **8x8 Grid Simulation**: The environment is modeled as an 8x8 grid, with each cell representing a physical area.
 - **Obstacle Representation**: Cuboids are used to simulate obstacles, dynamically updating the cost matrix.
 - **Path Following**: The robot follows the computed path using a PID controller for smooth and precise movement.
 - **Dynamic Recalculations**: Obstacles trigger real-time path adjustments, ensuring the robot avoids blocked paths.
 
-## Prerequisites
-# For C++ Program
+# Prerequisites
+## For C++ Program
 C++ compiler supporting C++11 or later.
 
-# For CoppeliaSim
+## For CoppeliaSim
 Install CoppeliaSim from Coppelia Robotics.
 Use the provided .ttt file for the simulation setup.
   
-## CHow to Run
-# C++ Program
+# How to Run
+## C++ Program
 Use the following command to compile the program:
 
 ```bash
@@ -54,8 +54,8 @@ The recalculated path, total distance, and execution time.
     Recalculates paths using the Improved Dijkstra’s Algorithm.
     Adjusts its movements using a PID controller.
 
-## Code Structure
-# C++ Implementation
+# Code Structure
+## C++ Implementation
 - Graph Class: 
     **addEdge(u, v, w)**: Adds an edge between nodes u and v with weight w.
     **removeEdge(u, v)**: Removes the edge between nodes u and v.
@@ -64,8 +64,8 @@ The recalculated path, total distance, and execution time.
 - Main Function: 
     Initializes the graph, computes the shortest path, and dynamically handles obstacles.
 
-## Results
-# Performance:
+# Results
+## Performance:
     The robot successfully navigated the grid while avoiding obstacles.
     Real-time path recalculations ensured efficient navigation.
 
@@ -73,6 +73,7 @@ The recalculated path, total distance, and execution time.
 This project demonstrates the practicality of the Improved Dijkstra’s Algorithm in dynamic environments. By combining precomputed paths and real-time recalculations, the algorithm bridges the gap between theoretical graph algorithms and real-world robotic applications. This project is still not perfect as there are many things that able to be improved, but we hope that in the future this project would be able to reach the stage where it could be implemented into physical robots for autonomous navigation in a more complex and real world scenarios.
 
 Special thanks to Coppelia Robotics for providing an excellent simulation.
+
 https://github.com/Expellar/Final-Project-DAA
 
 This project provides an accessible and interactive way for students and educators to learn about robotics, pathfinding algorithms, 
