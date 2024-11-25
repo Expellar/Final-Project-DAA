@@ -47,12 +47,26 @@ The recalculated path, total distance, and execution time.
 
 ```
 # CopelliaSim
-- Open CoppeliaSim and load the provided .ttt file.
-- Start the simulation to observe the robot navigating the 8x8 grid.
-- The robot:
-    Detects obstacles dynamically using the cost matrix.
-    Recalculates paths using the Improved Dijkstra’s Algorithm.
-    Adjusts its movements using a PID controller.
+
+  ## Features
+  - Path planning using Standard Dijkstra's algorithm and Improved Dijkstra's algorithm
+  - Interactive obstacle reposition
+  - Real-time obstacle avoidance
+  - Customizable start and goal points
+  - Visualized path drawing
+
+  ## Requirements
+  - CoppeliaSim
+  - Python
+  - Numpy
+
+  ## Usage
+  - Open CoppeliaSim and load the provided .ttt file.
+  - Run the simulation to observe the robot navigating the 8x8 grid.
+  - The robot:
+      Detects obstacles dynamically using the cost matrix.
+      Recalculates paths using the Improved Dijkstra’s Algorithm.
+      Adjusts its movements using a PID controller.
 
 # Code Structure
 ## C++ Implementation
