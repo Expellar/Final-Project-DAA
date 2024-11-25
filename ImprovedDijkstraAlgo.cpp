@@ -97,12 +97,11 @@ void Graph::displayGraph() {
     }
 }
 
-// Driver code
 int main() {
     int V = 9; // Number of vertices
     Graph g(V);
 
-    // Add edges to the graph
+    // Edges added to the graph
     g.addEdge(0, 1, 4);
     g.addEdge(0, 7, 8);
     g.addEdge(1, 2, 8);
@@ -125,49 +124,76 @@ int main() {
 
     // Find initial shortest path
     vector<int> path = g.shortestPath(src, dest);
+
+    // Display the original path
+    cout << "\n--- Original Path (Before Any Obstacles) ---\n";
+    for (int node : path)
+        cout << node << " ";
+    cout << "\n";
+
+    vector<int> finalFullPath; // To store the full path including recalculated segments
     int totalDistance = 0;
 
     // Traverse the path with obstacle detection
-    cout << "Traversing the path with obstacle detection:\n";
-    for (size_t i = 0; i < path.size() - 1; ++i) {
-        int u = path[i];
-        int v = path[i + 1];
+cout << "Traversing the path with obstacle detection:\n";
+size_t i = 0; // Initialize index for traversal
+while (i < path.size() - 1) {
+    int u = path[i];
+    int v = path[i + 1];
 
-        cout << "Checking edge from " << u << " to " << v << ". Is there an obstacle? (y/n): ";
-        char response;
-        cin >> response;
+    cout << "Checking edge from " << u << " to " << v << ". Is there an obstacle? (y/n): ";
+    char response;
+    cin >> response;
 
-        if (response == 'y' || response == 'Y') {
-            cout << "Obstacle detected. Recalculating path...\n";
-            g.removeEdge(u, v);
-            path = g.shortestPath(u, dest); // Recalculate path from current node
-            i = -1; // Restart the traversal from the updated path
-            if (path.empty()) {
-                cout << "No available path to destination.\n";
-                return 0;
-            }
-        } else {
-            for (const auto& [nextNode, weight] : g.getAdj()[u]) {
-                if (nextNode == v) {
-                    totalDistance += weight;
-                    break;
-                }
+    if (response == 'y' || response == 'Y') {
+        cout << "Obstacle detected. Recalculating path...\n";
+        g.removeEdge(u, v);
+        path = g.shortestPath(u, dest); // Recalculate path from current node
+
+        // Check if the path is valid
+        if (path.size() <= 1) {
+            cout << "No available path to destination.\n";
+            return 0;
+        }
+
+        // Output the updated path
+        cout << "Updated Path: ";
+        for (int node : path)
+            cout << node << " ";
+        cout << "\n";
+
+        // Restart traversal from the new path's beginning
+        i = 0;
+        continue;
+    } else {
+        finalFullPath.push_back(u); // Add the current node to the full path
+        for (const auto& [nextNode, weight] : g.getAdj()[u]) {
+            if (nextNode == v) {
+                totalDistance += weight;
+                break;
             }
         }
+        ++i; // Move to the next edge
     }
+}
+
+// Add the final destination node to the full path
+finalFullPath.push_back(dest);
+
+
 
     // End timing
     auto end = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(end - start);
 
-    // If traversal is successful, print the path
-    cout << "Path to destination:\n";
-    for (int node : path)
+    // Print the full path from beginning to end
+    cout << "\n--- Final Path to Destination ---\n";
+    for (int node : finalFullPath)
         cout << node << " ";
     cout << "\n";
 
     // Output total distance
-    cout << "Total Distance: " << totalDistance << "\n";
+    cout << "\nTotal Distance: " << totalDistance << "\n";
 
     // Output execution time
     cout << "Execution Time: " << duration.count() << " ms\n";
