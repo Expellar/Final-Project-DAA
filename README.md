@@ -83,7 +83,7 @@ The recalculated path, total distance, and execution time.
     The robot successfully navigated the grid while avoiding obstacles.
     Real-time path recalculations ensured efficient navigation.
 
-[![Watch the video](https://raw.githubusercontent.com/Final-Project-DAA/Expellar/repository/branch/path/to/thumbnail.jpg)](https://github.com/username/repository/raw/branch/path/to/video.mp4)
+[Watch the simulation video](https://drive.google.com/file/d/1LOEGjmxlfeufFAD0y6G_nJtgwQ5HFQly/view?usp=drive_link)
 
 
 ## Conclusion
