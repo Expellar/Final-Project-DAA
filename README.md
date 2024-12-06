@@ -83,6 +83,9 @@ The recalculated path, total distance, and execution time.
     The robot successfully navigated the grid while avoiding obstacles.
     Real-time path recalculations ensured efficient navigation.
 
+[![Watch the video](https://raw.githubusercontent.com/Final-Project-DAA/Expellar/repository/branch/path/to/thumbnail.jpg)](https://github.com/username/repository/raw/branch/path/to/video.mp4)
+
+
 ## Conclusion
 This project demonstrates the practicality of the Improved Dijkstra’s Algorithm in dynamic environments. By combining precomputed paths and real-time recalculations, the algorithm bridges the gap between theoretical graph algorithms and real-world robotic applications. This project is still not perfect as there are many things that able to be improved, but we hope that in the future this project would be able to reach the stage where it could be implemented into physical robots for autonomous navigation in a more complex and real world scenarios.
 
