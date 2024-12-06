@@ -7,7 +7,7 @@ This repository contains the implementation of the Improved Dijkstra’s Algorit
 A C++ program to compute the shortest path in a graph while dynamically handling obstacles.
 A simulation in CoppeliaSim, showcasing the algorithm in action with a mobile robot navigating a grid environment.
 - **ImprovedDijkstraAlgo**: The improved dijkstra's algorithm our team has developed
-- **Dijkstra_Improvement.ttt**: The implementation of the algorithm in a simulated virtual robot, in a simulated environment. Using the program CopelliaSim.
+- **CopelliaSimsImplementation**: The implementation of the algorithm in a simulated virtual robot, in a simulated environment. Using the program CopelliaSim.
 
 # Features
 ## C++ Implementation
@@ -83,10 +83,10 @@ The recalculated path, total distance, and execution time.
     The robot successfully navigated the grid while avoiding obstacles.
     Real-time path recalculations ensured efficient navigation.
 
-Watch the simulation video:
+## Watch the simulation video:
 
 <a href="https://drive.google.com/file/d/1LOEGjmxlfeufFAD0y6G_nJtgwQ5HFQly/view?usp=drive_link">
-  <img src="https://raw.githubusercontent.com/Expellar/Final-Project-DAA/main/CoppeliaSim.jpeg" width="300"/>
+  <img src="https://raw.githubusercontent.com/Expellar/Final-Project-DAA/main/CopelliaSimsImplementation/Video%20Thumbnail.jpeg" width="250"/>
 </a>
 
 
